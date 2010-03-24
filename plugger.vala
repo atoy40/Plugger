@@ -17,7 +17,7 @@ public class Plugger : Object {
 			return 0;
 		}
 
-		Plugin plugin = loadPlugin(args[1]);
+		var plugin = loadPlugin(args[1]);
 
 		if (plugin == null) {
 			return 0;
@@ -35,8 +35,8 @@ public class Plugger : Object {
 	public static Plugin? loadPlugin(string file) {
 
 		// load the module library file
-		string path = Module.build_path(Environment.get_variable("PWD"), file);
-		Module module = Module.open(path, ModuleFlags.BIND_LAZY);
+		var path = Module.build_path(Environment.get_variable("PWD"), file);
+		var module = Module.open(path, ModuleFlags.BIND_LAZY);
 
 		if (module == null) {
 			stderr.printf("Unable to load %s\n", path);
@@ -55,7 +55,7 @@ public class Plugger : Object {
 			return null;
 		}
 
-		GetPluginFunction fct = (GetPluginFunction)symbol;
+		var fct = (GetPluginFunction)symbol;
 
 		// return a new instance of the plugin
 		return fct();
