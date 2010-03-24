@@ -3,17 +3,12 @@ using GLib;
 public class Plugger : Object {
 
 	/*
-	 *  the delegate (the function implemented in plugins)
+	 *  The delegate (the function implemented in plugins)
 	 */
 	private delegate Plugin GetPluginFunction();
 
 	/*
-	 * The glib module loader
-	 */
-	private static Module module;
-
-	/*
-	 * the main entry point
+	 * The main entry point.
 	 */
 	public static int main(string[] args) {
 
@@ -35,19 +30,23 @@ public class Plugger : Object {
 	}
 
 	/*
-	 * - load the plugin library
-	 * - find the "getPlugin" symbol
-	 * - call it and return the given object
+	 * Open plugin and return a new instance.
 	 */
 	public static Plugin? loadPlugin(string file) {
+
+		// load the module library file
 		string path = Module.build_path(Environment.get_variable("PWD"), file);
-		module = Module.open(path, ModuleFlags.BIND_LAZY);
+		Module module = Module.open(path, ModuleFlags.BIND_LAZY);
 
 		if (module == null) {
 			stderr.printf("Unable to load %s\n", path);
 			return null;
 		}
 
+		// force module to stay loaded
+		module.make_resident();
+
+		// get a reference to the entry point symbol
 		void *symbol;
 		module.symbol("getPlugin", out symbol);
 
@@ -58,6 +57,7 @@ public class Plugger : Object {
 
 		GetPluginFunction fct = (GetPluginFunction)symbol;
 
+		// return a new instance of the plugin
 		return fct();
 	}
 }
