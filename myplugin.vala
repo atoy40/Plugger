@@ -13,7 +13,7 @@ public class MyPlugin : Object, Plugin {
 }
 
 /*
- * The required function returning a ne instance of the plugin
+ * The required function returning a new instance of the plugin
  */
 public Plugin getPlugin() {
 	return new MyPlugin();
