@@ -48,7 +48,7 @@ public class Plugger : Object {
 
 		// get a reference to the entry point symbol
 		void *symbol;
-		module.symbol("getPlugin", out symbol);
+		module.symbol("get_plugin", out symbol);
 
 		if (symbol == null) {
 			stderr.printf("Unable to find symbol\n");

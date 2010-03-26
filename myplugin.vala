@@ -15,7 +15,7 @@ public class MyPlugin : Object, Plugin {
 /*
  * The required function returning a new instance of the plugin
  */
-public Plugin getPlugin() {
+public Plugin get_plugin() {
 	return new MyPlugin();
 }
 
