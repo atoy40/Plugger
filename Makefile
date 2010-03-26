@@ -12,19 +12,15 @@ plugger: $(SRCS)
 
 # Generate a test plugin
 
-libmyplugin.so: myplugin.vala plugin.vapi plugin.h
+libmyplugin.so: myplugin.vala api
 	$(VALAC) -C --pkg plugin --vapidir=. myplugin.vala
 	$(CC) --shared -fPIC -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I. -lglib-2.0 -o $@ myplugin.c
 
 # Generate the plugin API (C and Vala)
 
-plugin.vapi: plugin.vala
-	echo "[CCode (cheader_filename = \"plugin.h\")]" > $@
-	cat plugin.vala >> $@
-
-plugin.h: plugin.vala
-	$(VALAC) -H $@ -C plugin.vala
-
+api: plugin.vala
+	$(VALAC) --library=plugin -H plugin.h -C plugin.vala
+	
 # Cleaning
 
 clean:
