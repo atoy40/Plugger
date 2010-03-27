@@ -12,3 +12,9 @@ plugger_LDADD = $(GOBJECT_LIBS) $(GMODULE_LIBS)
 BUILT_SOURCES = plugin.vapi plugin.h
 CLEANFILES = plugin.vapi plugin.h
 plugin.vapi plugin.h: $(VAPI_SOURCES_FILES)
+
+# myplugin target
+lib_LTLIBRARIES = libmyplugin.la
+
+libmyplugin_la_SOURCES = myplugin.vala
+libmyplugin_la_VALAFLAGS = --vapidir=$(top_srcdir) --pkg plugin
