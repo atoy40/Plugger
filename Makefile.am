@@ -1,5 +1,6 @@
 # Variables
 VAPI_SOURCES_FILES = plugin.vala
+ACLOCAL_AMFLAGS = -Im4
 
 # plugger target
 bin_PROGRAMS = plugger
