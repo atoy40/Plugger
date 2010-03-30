@@ -17,7 +17,7 @@ public class Plugger : Object {
 			return 0;
 		}
 
-		var plugin = loadPlugin(args[1]);
+		var plugin = get_plugin(args[1]);
 
 		if (plugin == null) {
 			return 0;
@@ -32,7 +32,7 @@ public class Plugger : Object {
 	/*
 	 * Open plugin and return a new instance.
 	 */
-	public static Plugin? loadPlugin(string file) {
+	public static Plugin? get_plugin(string file) {
 
 		// load the module library file
 		var path = Module.build_path(Environment.get_variable("PWD"), file);
