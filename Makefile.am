@@ -15,7 +15,10 @@ CLEANFILES = plugin.vapi plugin.h
 plugin.vapi plugin.h: $(VAPI_SOURCES_FILES)
 
 # myplugin target
-lib_LTLIBRARIES = libmyplugin.la
+lib_LTLIBRARIES = libmyplugin.la libmyotherplugin.la
 
 libmyplugin_la_SOURCES = myplugin.vala
 libmyplugin_la_VALAFLAGS = --vapidir=$(top_srcdir) --pkg plugin
+
+libmyotherplugin_la_SOURCES = myotherplugin.vala
+libmyotherplugin_la_VALAFLAGS = --vapidir=$(top_srcdir) --pkg plugin
