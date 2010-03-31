@@ -13,18 +13,22 @@ public class Plugger : Object {
 	public static int main(string[] args) {
 
 		if (args.length < 2) {
-			stderr.printf("Need the plugin name\n");
+			stderr.printf("Need the plugin directory\n");
 			return 0;
 		}
 
-		var plugin = get_plugin(args[1]);
+		var directory = File.new_for_path(args[1]);
+		var enumerator = directory.enumerate_children(FILE_ATTRIBUTE_STANDARD_NAME, 0, null);
 
-		if (plugin == null) {
-			return 0;
+		FileInfo file_info;
+		while((file_info = enumerator.next_file (null)) != null) {
+			var name = file_info.get_name();
+			if (name.has_suffix(".so")) {
+				var plugin = get_plugin(directory.get_path(), name);
+				if (plugin != null)
+					plugin.message();
+			}
 		}
-
-		// call the plugin method
-		plugin.message();
 
 		return 1;
 	}
@@ -32,10 +36,10 @@ public class Plugger : Object {
 	/*
 	 * Open plugin and return a new instance.
 	 */
-	public static Plugin? get_plugin(string file) {
+	public static Plugin? get_plugin(string plugin_path, string file) {
 
 		// load the module library file
-		var path = Module.build_path(Environment.get_variable("PWD"), file);
+		var path = Module.build_path(plugin_path, file);
 		var module = Module.open(path, ModuleFlags.BIND_LAZY);
 
 		if (module == null) {
